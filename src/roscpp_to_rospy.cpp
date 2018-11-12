@@ -16,8 +16,8 @@ public:
 
         ros::init(argc, nullptr, node_name, flags);
 
-        nh_ = ros::NodeHandle();
-
+        nh_ = ros::NodeHandlePtr(new ros::NodeHandle());
+        nh_priv_ = ros::NodeHandlePtr(new ros::NodeHandle("~"));
     }
 
     ~ROScppNode() {
@@ -26,7 +26,8 @@ public:
         }
     }
 
-    ros::NodeHandle nh_;
+    ros::NodeHandlePtr nh_;
+    ros::NodeHandlePtr nh_priv_;
 };
 
 
@@ -34,11 +35,11 @@ PYBIND11_MODULE(roscpp_to_rospy, m) {
     m.doc() = "pybind11 roscpp_to_rospy";
 
     py::class_<ROScppNode>(m, "ROScppNode")
-        .def(py::init<const std::string&, 
-                bool, 
-                bool, 
-                bool>(),
-                "Create ROS cpp Node",
+        .def(py::init<const std::string&,
+            bool,
+            bool,
+            bool>(),
+            "Create ROS cpp Node with the given node_name",
                 py::arg("node_name"),
                 py::arg("anonymous") = false, 
                 py::arg("disable_rosout") = false,
