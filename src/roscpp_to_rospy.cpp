@@ -1,48 +1,32 @@
 #include "ros/ros.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <iostream>
+#include "roscpp_to_rospy/roscpp_to_rospy.h"
 
-namespace py = pybind11;
+/*
+Author: Sammy Pfeiffer
+*/
 
-class ROScppNode {
-public:
-    ROScppNode(const std::string& node_name, 
-                    bool anonymous=false, 
-                    bool disable_rosout=false, 
-                    bool disable_signals=false){
-        uint32_t flags = anonymous & ros::init_options::AnonymousName | disable_rosout & ros::init_options::NoRosout | disable_signals & ros::init_options::NoSigintHandler;
-        int argc = 0;
+// Expose a roscpp stuff to Python
 
+/* Create a ROS C++ Node */
+ROScppNode::ROScppNode(const std::string& node_name, 
+                bool anonymous, 
+                bool disable_rosout, 
+                bool disable_signals){
+    uint32_t flags = anonymous & ros::init_options::AnonymousName | disable_rosout & ros::init_options::NoRosout | disable_signals & ros::init_options::NoSigintHandler;
+    int argc = 0;
+
+    if(!ros::isInitialized()){
         ros::init(argc, nullptr, node_name, flags);
 
         nh_ = ros::NodeHandlePtr(new ros::NodeHandle());
         nh_priv_ = ros::NodeHandlePtr(new ros::NodeHandle("~"));
     }
+}
 
-    ~ROScppNode() {
-        if(ros::isInitialized() && !ros::isShuttingDown()){
-            ros::shutdown();
-        }
+ROScppNode::~ROScppNode() {
+    if(ros::isInitialized() && !ros::isShuttingDown()){
+        ros::shutdown();
     }
-
-    ros::NodeHandlePtr nh_;
-    ros::NodeHandlePtr nh_priv_;
-};
-
-
-PYBIND11_MODULE(roscpp_to_rospy, m) {
-    m.doc() = "pybind11 roscpp_to_rospy";
-
-    py::class_<ROScppNode>(m, "ROScppNode")
-        .def(py::init<const std::string&,
-            bool,
-            bool,
-            bool>(),
-            "Create ROS cpp Node with the given node_name",
-                py::arg("node_name"),
-                py::arg("anonymous") = false, 
-                py::arg("disable_rosout") = false,
-                py::arg("disable_signals") = false);
-
 }
