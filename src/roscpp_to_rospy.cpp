@@ -1,6 +1,4 @@
 #include "ros/ros.h"
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
 #include "roscpp_to_rospy/roscpp_to_rospy.h"
 
 /*
