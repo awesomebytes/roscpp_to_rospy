@@ -23,6 +23,12 @@ PYBIND11_MODULE(roscpp_to_rospy_pybind11, m) {
                 py::arg("node_name"),
                 py::arg("anonymous") = false, 
                 py::arg("disable_rosout") = false,
-                py::arg("disable_signals") = false);
+                py::arg("disable_signals") = false)
+
+        .def("isInitialized", &ROScppNode::isInitialized)
+                
+        .def("spinOnce", &ROScppNode::spinOnce)
+        
+        .def("ROS_INFO", &ROScppNode::ROS_INFO_cpp);
 
 }

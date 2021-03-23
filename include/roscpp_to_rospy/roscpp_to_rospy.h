@@ -16,6 +16,10 @@ public:
                     bool anonymous=false, 
                     bool disable_rosout=false, 
                     bool disable_signals=false);
+    bool isInitialized();
+    void spinOnce();
+
+    void ROS_INFO_cpp(const std::string& text);
 
     ~ROScppNode();
 

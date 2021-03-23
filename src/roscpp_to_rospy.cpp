@@ -23,6 +23,21 @@ ROScppNode::ROScppNode(const std::string& node_name,
     }
 }
 
+void ROScppNode::spinOnce(){
+    ros::spinOnce();
+}
+
+bool ROScppNode::isInitialized(){
+            std::cout << "(cout) ROScppNode is ros::isInitialized?: " << ros::isInitialized() << std::endl;
+            std::cout << "(cout) ROScppNode is ros::ok?: " << ros::ok() << std::endl;
+            std::cout << "(cout) ROScppNode is ros::isStarted?: " << ros::isStarted() << std::endl;
+    return ros::isInitialized();
+}
+
+void ROScppNode::ROS_INFO_cpp(const std::string& text){
+    ROS_INFO_STREAM(text);
+}
+
 ROScppNode::~ROScppNode() {
     if(ros::isInitialized() && !ros::isShuttingDown()){
         ros::shutdown();
