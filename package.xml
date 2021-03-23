@@ -18,6 +18,7 @@
   <exec_depend>pybind11_catkin</exec_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <depend>pyrosmsg</depend>
 
 
 </package>

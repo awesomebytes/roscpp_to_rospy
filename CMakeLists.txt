@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   pybind11_catkin
   roscpp
   rospy
+  pyrosmsg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -42,9 +43,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
-   LIBRARIES roscpp_to_rospy
-   CATKIN_DEPENDS pybind11_catkin roscpp rospy
+   # INCLUDE_DIRS include
+   # LIBRARIES roscpp_to_rospy
+   CATKIN_DEPENDS pybind11_catkin roscpp rospy pyrosmsg
 #  DEPENDS system_lib
 )
 
@@ -55,19 +56,19 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
+  # include
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}
-  src/roscpp_to_rospy.cpp
-)
+# add_library(${PROJECT_NAME}
+#   src/roscpp_to_rospy.cpp
+# )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
@@ -91,8 +92,8 @@ add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EX
 # pybind11 stuff
 # Given that we separated the pybind11 wrapping we need to add all sources
 # in the examples it was just one file, this is the way to do it if you separate them
-pybind_add_module(roscpp_to_rospy_pybind11
-	src/roscpp_to_rospy.cpp
+pybind_add_module(roscpp_to_rospy
+	# src/roscpp_to_rospy.cpp
     src/roscpp_to_rospy_pybind11.cpp
 )
 
@@ -119,7 +120,7 @@ pybind_add_module(roscpp_to_rospy_pybind11
 ## Mark executables and/or libraries for installation
 install(TARGETS 
 	# ${PROJECT_NAME} 
-	${PROJECT_NAME}_pybind11
+	${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
